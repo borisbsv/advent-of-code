@@ -1,12 +1,15 @@
 use std::fmt;
 
 mod one;
+mod two;
 mod util;
 
 fn main() {
     println!("┌{}┬{}┬{}┐", "─".repeat(14), "─".repeat(29), "─".repeat(19));
     println!("{}", bench(one::solve::a, "src/one/input"));
     println!("{}", bench(one::solve::b, "src/one/input"));
+    println!("{}", bench(two::solve::a, "src/two/input"));
+    println!("{}", bench(two::solve::b, "src/two/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
