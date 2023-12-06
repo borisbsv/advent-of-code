@@ -1,7 +1,9 @@
 use std::fmt;
 
 mod one;
+mod three;
 mod two;
+
 mod util;
 
 fn main() {
@@ -10,6 +12,8 @@ fn main() {
     println!("{}", bench(one::solve::b, "src/one/input"));
     println!("{}", bench(two::solve::a, "src/two/input"));
     println!("{}", bench(two::solve::b, "src/two/input"));
+    println!("{}", bench(three::solve::a, "src/three/input"));
+    println!("{}", bench(three::solve::b, "src/three/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
