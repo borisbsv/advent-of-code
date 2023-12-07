@@ -14,22 +14,45 @@ struct Map {
     delta: i64,
 }
 
-type Maps = Vec<Vec<Map>>;
-
 impl Map {
     fn overlaps(&self, seed: &Seeds) -> Seeds {
         max(seed.start, self.src)..min(seed.end, self.src + self.rng)
     }
 }
 
-pub trait RangeExt {
-    fn overlaps(&self, other: &Self) -> bool;
-}
+type Maps = Vec<Vec<Map>>;
 
-impl RangeExt for Range<i64> {
-    fn overlaps(&self, other: &Self) -> bool {
-        self.start < other.end && other.start < self.end
+fn mappers(maps: impl Iterator<Item = String>) -> Maps {
+    let mut parsed: Maps = vec![];
+
+    for line in maps {
+        match line.as_str() {
+            "seed-to-soil map:" => parsed.push(vec![]),
+            "soil-to-fertilizer map:" => parsed.push(vec![]),
+            "fertilizer-to-water map:" => parsed.push(vec![]),
+            "water-to-light map:" => parsed.push(vec![]),
+            "light-to-temperature map:" => parsed.push(vec![]),
+            "temperature-to-humidity map:" => parsed.push(vec![]),
+            "humidity-to-location map:" => parsed.push(vec![]),
+            "" => {}
+            _ => {
+                let parts = line
+                    .split(' ')
+                    .map(|n| n.parse::<i64>().unwrap())
+                    .collect::<Vec<_>>();
+                let src = *parts.get(1).unwrap();
+                let dst = *parts.first().unwrap();
+
+                parsed.last_mut().unwrap().push(Map {
+                    src,
+                    rng: *parts.get(2).unwrap(),
+                    delta: dst - src,
+                })
+            }
+        }
     }
+
+    parsed
 }
 
 pub(crate) fn b(input: &str) -> i64 {
@@ -41,6 +64,7 @@ pub(crate) fn b(input: &str) -> i64 {
         .skip(1)
         .map(|n| n.parse::<i64>().unwrap())
         .collect::<Vec<i64>>();
+
     let mut seeds = binding
         .chunks(2)
         .map(|r| {
@@ -50,9 +74,7 @@ pub(crate) fn b(input: &str) -> i64 {
         })
         .collect::<Vec<Seeds>>();
 
-    let maps = mappers(lines);
-
-    for m in maps {
+    for m in mappers(lines) {
         seeds = seeds
             .into_iter()
             .flat_map(|seed| map(seed, &m))
@@ -67,10 +89,7 @@ fn map(range: Seeds, maps: &[Map]) -> Vec<Seeds> {
     let mut output = vec![];
 
     while let Some(seed) = input.pop() {
-        let to_apply = maps.iter().find(|&m| {
-            let intersection = m.overlaps(&seed);
-            !intersection.is_empty()
-        });
+        let to_apply = maps.iter().find(|&m| !m.overlaps(&seed).is_empty());
 
         let Some(m) = to_apply else {
             output.push(seed);
@@ -78,14 +97,11 @@ fn map(range: Seeds, maps: &[Map]) -> Vec<Seeds> {
         };
 
         let Map { src, rng, delta } = m;
-
         let Seeds {
-            start: seed_start,
-            end: seed_end,
+            start: seeds_start,
+            end: seeds_end,
         } = seed;
-
         let end = src + rng;
-
         let intersection = m.overlaps(&seed);
 
         output.push(Range {
@@ -93,17 +109,17 @@ fn map(range: Seeds, maps: &[Map]) -> Vec<Seeds> {
             end: intersection.end + delta,
         });
 
-        if seed_start < *src {
+        if seeds_start < *src {
             input.push(Range {
-                start: seed_start,
+                start: seeds_start,
                 end: m.src - 1,
             });
         }
 
-        if seed_end > end {
+        if seeds_end > end {
             input.push(Range {
                 start: intersection.end,
-                end: seed_end,
+                end: seeds_end,
             });
         }
     }
@@ -124,55 +140,6 @@ pub(crate) fn a(input: &str) -> i64 {
     let maps = mappers(lines);
 
     min_location(input.into_iter(), &maps)
-}
-
-fn mappers(maps: impl Iterator<Item = String>) -> Maps {
-    let mut seed_soil: Vec<Map> = vec![];
-    let mut soil_fert: Vec<Map> = vec![];
-    let mut fert_water: Vec<Map> = vec![];
-    let mut water_light: Vec<Map> = vec![];
-    let mut light_temp: Vec<Map> = vec![];
-    let mut temp_hum: Vec<Map> = vec![];
-    let mut hum_loc: Vec<Map> = vec![];
-
-    let mut mapping = &mut seed_soil;
-
-    for line in maps {
-        match line.as_str() {
-            "seed-to-soil map:" => {}
-            "soil-to-fertilizer map:" => mapping = &mut soil_fert,
-            "fertilizer-to-water map:" => mapping = &mut fert_water,
-            "water-to-light map:" => mapping = &mut water_light,
-            "light-to-temperature map:" => mapping = &mut light_temp,
-            "temperature-to-humidity map:" => mapping = &mut temp_hum,
-            "humidity-to-location map:" => mapping = &mut hum_loc,
-            "" => {}
-            _ => {
-                let parts = line
-                    .split(' ')
-                    .map(|n| n.parse::<i64>().unwrap())
-                    .collect::<Vec<_>>();
-                let src = *parts.get(1).unwrap();
-                let dst = *parts.first().unwrap();
-
-                mapping.push(Map {
-                    src,
-                    rng: *parts.get(2).unwrap(),
-                    delta: dst - src,
-                })
-            }
-        }
-    }
-
-    vec![
-        seed_soil,
-        soil_fert,
-        fert_water,
-        water_light,
-        light_temp,
-        temp_hum,
-        hum_loc,
-    ]
 }
 
 fn min_location(input: impl Iterator<Item = i64>, maps: &Maps) -> i64 {
