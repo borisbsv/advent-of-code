@@ -1,5 +1,7 @@
 use std::fmt;
 
+mod five;
+mod four;
 mod one;
 mod three;
 mod two;
@@ -14,6 +16,10 @@ fn main() {
     println!("{}", bench(two::solve::b, "src/two/input"));
     println!("{}", bench(three::solve::a, "src/three/input"));
     println!("{}", bench(three::solve::b, "src/three/input"));
+    println!("{}", bench(four::solve::a, "src/four/input"));
+    println!("{}", bench(four::solve::b, "src/four/input"));
+    println!("{}", bench(five::solve::a, "src/five/input"));
+    println!("{}", bench(five::solve::b, "src/five/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
