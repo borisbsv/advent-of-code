@@ -15,7 +15,7 @@ struct Map {
 }
 
 impl Map {
-    fn overlaps(&self, seed: &Seeds) -> Seeds {
+    fn intersect(&self, seed: &Seeds) -> Seeds {
         max(seed.start, self.src)..min(seed.end, self.src + self.rng)
     }
 }
@@ -39,7 +39,7 @@ fn mappers(maps: impl Iterator<Item = String>) -> Maps {
                 let parts = line
                     .split(' ')
                     .map(|n| n.parse::<i64>().unwrap())
-                    .collect::<Vec<_>>();
+                    .collect::<Vec<i64>>();
                 let src = *parts.get(1).unwrap();
                 let dst = *parts.first().unwrap();
 
@@ -89,7 +89,7 @@ fn map(range: Seeds, maps: &[Map]) -> Vec<Seeds> {
     let mut output = vec![];
 
     while let Some(seed) = input.pop() {
-        let to_apply = maps.iter().find(|&m| !m.overlaps(&seed).is_empty());
+        let to_apply = maps.iter().find(|&m| !m.intersect(&seed).is_empty());
 
         let Some(m) = to_apply else {
             output.push(seed);
@@ -102,7 +102,7 @@ fn map(range: Seeds, maps: &[Map]) -> Vec<Seeds> {
             end: seeds_end,
         } = seed;
         let end = src + rng;
-        let intersection = m.overlaps(&seed);
+        let intersection = m.intersect(&seed);
 
         output.push(Range {
             start: intersection.start + delta,

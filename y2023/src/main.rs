@@ -3,6 +3,7 @@ use std::fmt;
 mod five;
 mod four;
 mod one;
+mod six;
 mod three;
 mod two;
 
@@ -20,6 +21,8 @@ fn main() {
     println!("{}", bench(four::solve::b, "src/four/input"));
     println!("{}", bench(five::solve::a, "src/five/input"));
     println!("{}", bench(five::solve::b, "src/five/input"));
+    println!("{}", bench(six::solve::a, "src/six/input"));
+    println!("{}", bench(six::solve::b, "src/six/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
