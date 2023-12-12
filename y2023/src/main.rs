@@ -1,39 +1,39 @@
 use std::fmt;
 
-mod eight;
-mod five;
-mod four;
-mod nine;
-mod one;
-mod seven;
-mod six;
-mod ten;
-mod three;
-mod two;
+mod d01;
+mod d02;
+mod d03;
+mod d04;
+mod d05;
+mod d06;
+mod d07;
+mod d08;
+mod d09;
+mod d10;
 
 mod util;
 
 fn main() {
     println!("┌{}┬{}┬{}┐", "─".repeat(14), "─".repeat(29), "─".repeat(19));
-    println!("{}", bench(one::solve::a, "src/one/input"));
-    println!("{}", bench(one::solve::b, "src/one/input"));
-    println!("{}", bench(two::solve::a, "src/two/input"));
-    println!("{}", bench(two::solve::b, "src/two/input"));
-    println!("{}", bench(three::solve::a, "src/three/input"));
-    println!("{}", bench(three::solve::b, "src/three/input"));
-    println!("{}", bench(four::solve::a, "src/four/input"));
-    println!("{}", bench(four::solve::b, "src/four/input"));
-    println!("{}", bench(five::solve::a, "src/five/input"));
-    println!("{}", bench(five::solve::b, "src/five/input"));
-    println!("{}", bench(six::solve::a, "src/six/input"));
-    println!("{}", bench(six::solve::b, "src/six/input"));
-    println!("{}", bench(seven::solve::a, "src/seven/input"));
-    println!("{}", bench(eight::solve::a, "src/eight/input"));
-    println!("{}", bench(eight::solve::b, "src/eight/input"));
-    println!("{}", bench(nine::solve::a, "src/nine/input"));
-    println!("{}", bench(nine::solve::b, "src/nine/input"));
-    println!("{}", bench(ten::solve::a, "src/ten/input"));
-    println!("{}", bench(ten::solve::b, "src/ten/input"));
+    println!("{}", bench(d01::solve::a, "src/d01/input"));
+    println!("{}", bench(d01::solve::b, "src/d01/input"));
+    println!("{}", bench(d02::solve::a, "src/d02/input"));
+    println!("{}", bench(d02::solve::b, "src/d02/input"));
+    println!("{}", bench(d03::solve::a, "src/d03/input"));
+    println!("{}", bench(d03::solve::b, "src/d03/input"));
+    println!("{}", bench(d04::solve::a, "src/d04/input"));
+    println!("{}", bench(d04::solve::b, "src/d04/input"));
+    println!("{}", bench(d05::solve::a, "src/d05/input"));
+    println!("{}", bench(d05::solve::b, "src/d05/input"));
+    println!("{}", bench(d06::solve::a, "src/d06/input"));
+    println!("{}", bench(d06::solve::b, "src/d06/input"));
+    println!("{}", bench(d07::solve::a, "src/d07/input"));
+    println!("{}", bench(d08::solve::a, "src/d08/input"));
+    println!("{}", bench(d08::solve::b, "src/d08/input"));
+    println!("{}", bench(d09::solve::a, "src/d09/input"));
+    println!("{}", bench(d09::solve::b, "src/d09/input"));
+    println!("{}", bench(d10::solve::a, "src/d10/input"));
+    println!("{}", bench(d10::solve::b, "src/d10/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
