@@ -1,6 +1,5 @@
 use crate::util::read::read;
 
-#[allow(dead_code)]
 pub(crate) fn a(input: &str) -> i32 {
     let lines: u32 = read(input, |l| {
         l.unwrap().chars().filter(|c| c.is_ascii_digit()).collect()
@@ -21,7 +20,6 @@ pub(crate) fn b(input: &str) -> i32 {
     for l in lines {
         let mut left: char = '\0';
         let mut right: char = '\0';
-        // let mut iter = l.chars().peekable();
         for i in 0..l.len() {
             let c = l[i];
             match c {
