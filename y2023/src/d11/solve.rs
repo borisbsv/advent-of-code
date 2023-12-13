@@ -49,19 +49,18 @@ fn distance(input: &str, factor: usize) -> usize {
                 .filter(|&&c| {
                     let min = cmp::min(g.1, og.1);
                     let max = cmp::max(g.1, og.1);
-                    min <= c && c <= max
+                    min < c && c < max
                 })
                 .count();
             let col_delta = g.1.abs_diff(og.1);
             let col_increase = col_delta + to_add * factor;
+
             let to_add = empty_rows
                 .iter()
                 .filter(|&&c| {
-                    if g.0 < og.0 {
-                        g.0 <= c && c <= og.0
-                    } else {
-                        og.0 <= c && c <= og.0
-                    }
+                    let min = cmp::min(g.0, og.0);
+                    let max = cmp::max(g.0, og.0);
+                    min < c && c < max
                 })
                 .count();
             let row_delta = g.0.abs_diff(og.0);
