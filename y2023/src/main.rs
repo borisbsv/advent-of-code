@@ -12,6 +12,7 @@ mod d09;
 mod d10;
 mod d11;
 mod d12;
+mod d13;
 
 mod util;
 
@@ -40,6 +41,8 @@ fn main() {
     println!("{}", bench(d11::solve::b, "src/d11/input"));
     println!("{}", bench(d12::solve::a, "src/d12/input"));
     println!("{}", bench(d12::solve::b, "src/d12/input"));
+    println!("{}", bench(d13::solve::a, "src/d13/input"));
+    println!("{}", bench(d13::solve::b, "src/d13/input"));
     println!("└{}┴{}┴{}┘", "─".repeat(14), "─".repeat(29), "─".repeat(19));
 }
 
