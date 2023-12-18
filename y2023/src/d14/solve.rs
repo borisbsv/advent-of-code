@@ -128,8 +128,7 @@ impl Iteration {
             .enumerate()
             .map(|(y, row)| {
                 row.iter()
-                    .enumerate()
-                    .map(|(_, c)| if *c == 'O' { self.field.len() - y } else { 0 })
+                    .map(|c| if *c == 'O' { self.field.len() - y } else { 0 })
                     .sum::<usize>()
             })
             .sum()
@@ -160,7 +159,6 @@ pub(crate) fn b(input: &str) -> usize {
 
     for i in 0..1_000_000_000 {
         visited.insert(step.clone());
-
         step.next();
 
         if let Some(s) = visited.get(&step) {
